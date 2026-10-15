@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Choice Conveyancing – Sale Instructions for vendors.">
+<link rel="icon" href="logo.png" type="image/png">
+<title>Choice Sale Instructions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F1F2F4; --surface:#FFFFFF; --surface-2:#F7F8F9; --ink:#1F2328; --muted:#5C636D; --line:#D9DCE1; --line-strong:#B9BEC6;
+  --red:#D2232A; --red-ink:#B01A21; --red-soft:#FCEBEC; --on-red:#FFFFFF;
+  --warn:#8A5A00; --warn-soft:#FFF3D6; --ok:#1C7249; --ok-soft:#E3F4EA; --info-soft:#EEF1F5;
+  --paper:#FFFFFF; --sig-ink:#1F2328;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121417; --surface:#1B1E22; --surface-2:#22262B; --ink:#ECEEF0; --muted:#A3A9B2; --line:#32373D; --line-strong:#4A5058;
+    --red:#EF4B53; --red-ink:#FF8A8F; --red-soft:#3A1B1E; --on-red:#FFFFFF;
+    --warn:#F3C366; --warn-soft:#352A12; --ok:#6CCB98; --ok-soft:#15301F; --info-soft:#23282F;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121417; --surface:#1B1E22; --surface-2:#22262B; --ink:#ECEEF0; --muted:#A3A9B2; --line:#32373D; --line-strong:#4A5058;
+  --red:#EF4B53; --red-ink:#FF8A8F; --red-soft:#3A1B1E; --on-red:#FFFFFF;
+  --warn:#F3C366; --warn-soft:#352A12; --ok:#6CCB98; --ok-soft:#15301F; --info-soft:#23282F;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--red-ink)}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* top bar */
+.top{background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{display:block;width:170px;height:auto}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo{background:#fff;border-radius:8px;padding:4px 6px}}
+:root[data-theme="dark"] .logo{background:#fff;border-radius:8px;padding:4px 6px}
+.top-meta{display:flex;gap:18px;align-items:center;color:var(--muted);font-size:13.5px;flex-wrap:wrap}
+.top-meta b{color:var(--ink);font-weight:600}
+
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:32px;align-items:start}
+@media (max-width:880px){.wrap{grid-template-columns:1fr;gap:16px;padding-block:16px 48px}}
+
+/* rail */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px)}
+@media (max-width:880px){.rail{display:none}}
+.rail h2{font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:700}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.steps button{width:100%;display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;text-align:left;background:none;border:0;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:14px}
+.steps button:hover{background:var(--surface)}
+.steps .n{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.steps .cur button{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:inset 3px 0 0 var(--red)}
+.steps .cur .n{color:var(--red-ink)}
+.steps .tick{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:10px}
+.steps .done .tick{background:var(--ok-soft);color:var(--ok)}
+.steps .todo .tick{background:var(--red-soft);color:var(--red-ink)}
+.rail-foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:13px;color:var(--muted)}
+.rail-foot .row{display:flex;gap:12px;flex-wrap:wrap}
+.link{background:none;border:0;padding:0;color:var(--red-ink);text-decoration:underline;text-underline-offset:3px;font-size:13px}
+
+/* mobile progress */
+.mprog{display:none}
+@media (max-width:880px){.mprog{display:block}}
+.mprog .lbl{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px;gap:12px}
+.mprog .lbl b{color:var(--ink);font-weight:600}
+.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red);transition:width .3s}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px 36px 28px;max-width:780px}
+@media (max-width:600px){.card{padding:22px 18px 20px;border-radius:12px}}
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--red-ink);letter-spacing:.04em;margin:0 0 6px}
+.card h1{font-family:var(--display);font-weight:800;font-size:clamp(24px,3.2vw,31px);line-height:1.15;margin:0 0 8px;text-wrap:balance;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:0 0 24px;max-width:62ch}
+.body{display:grid;gap:22px}
+.grp{font-family:var(--display);font-size:17px;font-weight:700;margin:12px 0 -6px;padding-top:18px;border-top:1px solid var(--line)}
+.body > .grp:first-child{border-top:0;padding-top:0;margin-top:0}
+
+/* questions */
+.q{border:0;margin:0;padding:0;min-width:0;display:grid;gap:7px}
+.q > label,.q legend{font-weight:600;font-size:15px;line-height:1.4;padding:0}
+.q legend{margin-bottom:7px}
+.req{color:var(--red-ink);margin-left:3px}
+.hint{color:var(--muted);font-size:13.5px;margin:-2px 0 2px;max-width:66ch}
+fieldset.q .hint{margin-top:-4px;margin-bottom:9px}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=month],input[type=number],select,textarea{
+  width:100%;font:inherit;font-size:15.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);border-radius:8px;padding:10px 12px;min-height:44px}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+.affix{display:flex;align-items:stretch}
+.affix span{display:grid;place-items:center;padding:0 12px;background:var(--surface-2);border:1px solid var(--line-strong);color:var(--muted);font-size:14px}
+.affix.pre span{border-right:0;border-radius:8px 0 0 8px}
+.affix.pre input{border-radius:0 8px 8px 0}
+.affix.suf span{border-left:0;border-radius:0 8px 8px 0}
+.affix.suf input{border-radius:8px 0 0 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px 18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 14px}
+@media (max-width:600px){.grid2,.grid3{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}}
+.bad input,.bad textarea,.bad select{border-color:var(--red)}
+.errmsg{color:var(--red-ink);font-size:13px;margin:0;font-weight:600}
+
+/* options */
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts.list{display:grid;gap:6px}
+.opt{position:relative;display:inline-flex}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt span{display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);font-size:14.5px;cursor:pointer;min-height:42px;line-height:1.35;transition:border-color .12s,background .12s}
+.opts.yn .opt span{min-width:84px;justify-content:center}
+.opt span::before{content:"";flex:none;width:16px;height:16px;border:1.5px solid var(--line-strong);border-radius:50%;background:var(--surface)}
+.opt input[type=checkbox] + span::before{border-radius:4px}
+.opts.yn .opt span::before{display:none}
+.opt:hover span{border-color:var(--muted)}
+.opt input:checked + span{border-color:var(--red);background:var(--red-soft);color:var(--ink);font-weight:600}
+.opt input:checked + span::before{border-color:var(--red);background:var(--red);box-shadow:inset 0 0 0 3px var(--surface)}
+.opt input[type=checkbox]:checked + span::before{box-shadow:none;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.opts.list .opt span{width:100%;font-weight:400}
+.opts.list .opt input:checked + span{font-weight:500}
+.opt input:focus-visible + span{outline:2px solid var(--red);outline-offset:2px}
+.single{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:14.5px}
+.single input{width:18px;height:18px;margin-top:2px;accent-color:var(--red);flex:none}
+
+/* conditional block */
+.sub{display:grid;gap:18px;margin-left:6px;padding:4px 0 4px 18px;border-left:2px solid var(--red-soft)}
+@media (prefers-reduced-motion:no-preference){.sub{animation:rise .22s ease-out}}
+@keyframes rise{from{opacity:.4;transform:translateY(-3px)}to{opacity:1;transform:none}}
+
+/* notes */
+.note{border-radius:var(--r);padding:12px 14px;font-size:14px;line-height:1.5;background:var(--info-soft);color:var(--ink)}
+.note p{margin:0 0 6px}.note p:last-child{margin:0}
+.note ul{margin:6px 0 0;padding-left:20px}
+.note.warn{background:var(--warn-soft)}
+.note.warn b:first-child{color:var(--warn)}
+.note.ok{background:var(--ok-soft)}
+.doc{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:9px 12px;border:1px dashed var(--line-strong);border-radius:8px;color:var(--ink)}
+.doc-ic{flex:none;width:14px;height:17px;margin-top:2px;border:1.6px solid var(--red);border-radius:2px 5px 2px 2px;position:relative}
+.doc-ic::after{content:"";position:absolute;left:2px;right:2px;top:5px;height:5px;border-top:1.4px solid var(--red);border-bottom:1.4px solid var(--red)}
+.facts-src{font-size:13.5px}
+
+/* table of pool deadlines */
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;font-size:13.5px;min-width:380px}
+.tbl th,.tbl td{text-align:left;padding:6px 12px 6px 0;border-bottom:1px solid var(--line)}
+.tbl th{font-weight:600;color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+
+/* works repeater */
+.work{border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:18px;background:var(--surface-2)}
+.work-h{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.work-h b{font-family:var(--display);font-size:16px}
+.work .opt span,.work input,.work textarea,.work select{background:var(--surface)}
+.add{justify-self:start;background:none;border:1.5px dashed var(--line-strong);border-radius:8px;padding:10px 16px;color:var(--ink);font-weight:600;font-size:14px}
+.add:hover{border-color:var(--red);color:var(--red-ink)}
+.flag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.03em;padding:3px 8px;border-radius:20px;background:var(--warn-soft);color:var(--warn)}
+
+/* sign step */
+.panel{border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px}
+.panel h3{font-family:var(--display);font-size:16px;margin:0}
+.panel ul{margin:0;padding-left:0;list-style:none;display:grid;gap:7px}
+.panel.docs li{display:flex;gap:10px;font-size:14px}
+.panel.docs li::before{content:"";flex:none;width:12px;height:12px;border:1.6px solid var(--red);border-radius:3px;margin-top:4px}
+.panel.miss{border-color:var(--red);background:var(--red-soft)}
+.panel.miss li{display:flex;justify-content:space-between;gap:12px;font-size:14px;flex-wrap:wrap}
+.legal{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--muted);background:var(--surface-2)}
+.legal p{margin:0 0 9px}.legal ol{margin:0 0 6px;padding-left:20px}.legal li{margin-bottom:5px}
+.sigbox{display:grid;gap:6px}
+.sighead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px}
+.sigpad{width:100%;height:150px;background:var(--paper);border:1px solid var(--line-strong);border-radius:10px;touch-action:none;cursor:crosshair;display:block;background-image:linear-gradient(to top,transparent 38px,#C9CDD3 38px,#C9CDD3 39px,transparent 39px)}
+.sigpad.bad{border-color:var(--red)}
+
+/* nav */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:30px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.btn{border:0;border-radius:9px;padding:12px 22px;font-weight:700;font-size:15px;font-family:var(--display);letter-spacing:.01em;min-height:46px}
+.btn.primary{background:var(--red);color:var(--on-red)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line-strong)}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn[disabled]{opacity:.55;cursor:progress}
+.saved{font-size:12.5px;color:var(--muted)}
+.blocker{margin-top:14px}
+
+/* done */
+.done-mark{width:52px;height:52px;border-radius:50%;background:var(--ok-soft);display:grid;place-items:center;margin-bottom:12px}
+.copyrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copyrow code{font-family:var(--mono);font-size:14px;background:var(--surface-2);border:1px solid var(--line);padding:8px 12px;border-radius:8px;user-select:all;word-break:break-all}
+.confirm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <img class="logo" src="logo.png" alt="Choice Conveyancing" width="170" height="55">
+    <div class="top-meta">
+      <span>Questions? <b>03 5246 8700</b></span>
+      <span>72A Little Ryrie St, Geelong</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="rail" aria-label="Form sections">
+    <h2>Sale instructions</h2>
+    <ol class="steps" id="steps"></ol>
+    <div class="rail-foot">
+      <span id="savedNote">Your answers save on this device as you go.</span>
+      <div class="row" id="railActions"></div>
+    </div>
+  </aside>
+  <main>
+    <div class="mprog" id="mprog"></div>
+    <form class="card" id="form" novalidate autocomplete="on"></form>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — for the GitHub Pages build, set submitUrl to the
+   Google Apps Script web-app URL that emails the PDF to the office.
+   Leave blank and the form offers a PDF download instead.
+   ========================================================= */
+const CONFIG = {
+  submitUrl: "",
+  officeEmail: "info@choiceconveyancing.com.au",
+  officePhone: "03 5246 8700",
+  storageKey: "cc-sale-instructions-v1"
+};
+
+let S = {};
+let MODE = null;        // null = render; object = collecting answers for PDF / validation
+let SHOWERR = false;
+let cur = 0;
+let visited = new Set([0]);
+let DONE = null;
+let confirmReset = false;
+let lastPdf = null;
+const DEMO = new URLSearchParams(location.search).has("demo");
+const TODAY = new Date();
+const THIS_YEAR = TODAY.getFullYear();
+
+/* ---------- utils ---------- */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const strip = s => String(s).replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const fid = k => "f_" + k.replace(/[^a-z0-9]/gi, "_");
+const val = k => (S[k] == null ? "" : S[k]);
+const empty = x => x == null || x === "" || x === false || (Array.isArray(x) && x.length === 0);
+const has = (k, v) => Array.isArray(S[k]) && S[k].includes(v);
+const num = x => { const n = parseFloat(String(x ?? "").replace(/[^0-9.]/g, "")); return isNaN(n) ? null : n; };
+function fmtDate(v){ const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v); return m ? `${m[3]}/${m[2]}/${m[1]}` : v; }
+function fmtMonth(v){ const m = /^(\d{4})-(\d{2})$/.exec(v); return m ? `${m[2]}/${m[1]}` : v; }
+function fmt(v, o){
+  if (Array.isArray(v)) return v.join("; ");
+  if (v === true) return "Yes";
+  if (o.type === "date") return fmtDate(v);
+  if (o.type === "month") return fmtMonth(v);
+  if (o.money) return "$" + v;
+  if (o.unit) return v + " " + o.unit;
+  return String(v);
+}
+function withinYears(y, n){ const yr = num(y); return yr != null && yr >= THIS_YEAR - n && yr <= THIS_YEAR; }
+
+/* ---------- field helpers (render OR collect) ---------- */
+function field(k, label, o = {}){
+  if (MODE){
+    if (!empty(S[k])) MODE.items.push([o.pdf || strip(label), fmt(S[k], o)]);
+    else if (o.req) MODE.missing.push(strip(label));
+    return "";
+  }
+  const bad = o.req && SHOWERR && empty(S[k]);
+  const t = o.type || "text";
+  const common = `id="${fid(k)}" data-k="${k}" ${o.live ? "data-live" : ""} ${o.auto ? `autocomplete="${o.auto}"` : ""}`;
+  let input;
+  if (t === "area") input = `<textarea ${common} rows="${o.rows || 3}" placeholder="${esc(o.ph || "")}">${esc(val(k))}</textarea>`;
+  else {
+    const it = (t === "money" || t === "number") ? "text" : t;
+    const im = (t === "money" || t === "number" || o.numeric) ? 'inputmode="decimal"' : "";
+    input = `<input type="${it}" ${im} ${common} value="${esc(val(k))}" placeholder="${esc(o.ph || "")}">`;
+    if (o.money) input = `<div class="affix pre"><span>$</span>${input}</div>`;
+    if (o.unit) input = `<div class="affix suf">${input}<span>${o.unit}</span></div>`;
+  }
+  return `<div class="q ${bad ? "bad" : ""}"><label for="${fid(k)}">${label}${o.req ? '<span class="req" aria-hidden="true">*</span>' : ""}</label>${o.hint ? `<p class="hint">${o.hint}</p>` : ""}${input}${bad ? '<p class="errmsg">Please fill this in.</p>' : ""}</div>`;
+}
+function choice(k, label, opts, o = {}){
+  if (MODE){
+    if (!empty(S[k])) MODE.items.push([o.pdf || strip(label), fmt(S[k], o)]);
+    else if (o.req) MODE.missing.push(strip(label));
+    return "";
+  }
+  const bad = o.req && SHOWERR && empty(S[k]);
+  const type = o.multi ? "checkbox" : "radio";
+  const items = opts.map((op, j) => {
+    const on = o.multi ? has(k, op) : S[k] === op;
+    return `<label class="opt"><input type="${type}" name="${fid(k)}" id="${fid(k)}_${j}" data-k="${k}" ${o.multi ? "data-multi" : ""} ${o.excl ? `data-exclval="${esc(o.excl)}"` : ""} value="${esc(op)}" ${on ? "checked" : ""}><span>${op}</span></label>`;
+  }).join("");
+  const yn = opts.length === 2 && opts[0] === "Yes";
+  return `<fieldset class="q ${bad ? "bad" : ""}"><legend>${label}${o.req ? '<span class="req" aria-hidden="true">*</span>' : ""}</legend>${o.hint ? `<p class="hint">${o.hint}</p>` : ""}<div class="opts ${o.list ? "list" : ""} ${yn ? "yn" : ""}">${items}</div>${bad ? `<p class="errmsg">${o.multi ? "Please tick at least one." : "Please choose one."}</p>` : ""}</fieldset>`;
+}
+const yn = (k, label, o = {}) => choice(k, label, ["Yes", "No"], o);
+function sel(k, label, opts, o = {}){
+  if (MODE){ if (!empty(S[k])) MODE.items.push([o.pdf || strip(label), S[k]]); return ""; }
+  return `<div class="q"><label for="${fid(k)}">${label}</label><select id="${fid(k)}" data-k="${k}"><option value="">Select…</option>${opts.map(op => `<option ${S[k] === op ? "selected" : ""}>${esc(op)}</option>`).join("")}</select></div>`;
+}
+function tick(k, label, o = {}){
+  if (MODE){ if (S[k] === true) MODE.items.push([o.pdf || strip(label), "Yes"]); else if (o.req) MODE.missing.push(o.pdf || strip(label)); return ""; }
+  const bad = o.req && SHOWERR && S[k] !== true;
+  return `<div class="q ${bad ? "bad" : ""}"><label class="single"><input type="checkbox" id="${fid(k)}" data-k="${k}" ${S[k] === true ? "checked" : ""}><span>${label}</span></label>${bad ? '<p class="errmsg">Please tick to confirm.</p>' : ""}</div>`;
+}
+function group(t){ if (MODE){ MODE.items.push({ h: strip(t) }); return ""; } return `<h3 class="grp">${esc(t)}</h3>`; }
+function item(label, value){ if (MODE && !empty(value)) MODE.items.push([label, value]); return ""; }
+function doc(t){ if (MODE){ MODE.docs.push(strip(t)); return ""; } return `<div class="doc"><span class="doc-ic" aria-hidden="true"></span><span><b>Please provide:</b> ${t}</span></div>`; }
+function note(h, tone = ""){ return MODE ? "" : `<div class="note ${tone}">${h}</div>`; }
+function sub(html){ return MODE ? html : `<div class="sub">${html}</div>`; }
+function row(cls, html){ return MODE ? html : `<div class="${cls}">${html}</div>`; }
+const when = (c, h) => (c ? h : "");
+
+/* ---------- derived facts ---------- */
+const CAPS = ["An individual", "A company", "Trustee of a trust or SMSF", "Executor or administrator of a deceased estate", "Attorney (power of attorney) or guardian"];
+const vc = () => num(S.vcount) || 0;
+const cap = i => S[`v${i}.cap`] || "";
+const isCompany = i => cap(i) === CAPS[1] || (cap(i) === CAPS[2] && S[`v${i}.tkind`] === "A company");
+const isTrust = i => cap(i) === CAPS[2];
+const personLabel = i => ({ [CAPS[1]]: "Director's details", [CAPS[3]]: "Executor / administrator's details", [CAPS[4]]: "Attorney / guardian's details" }[cap(i)] || (isCompany(i) ? "Director's details" : "Personal details"));
+function vName(i){
+  const person = [S[`v${i}.first`], S[`v${i}.family`]].filter(Boolean).join(" ");
+  if (isCompany(i) && S[`v${i}.co`]) return S[`v${i}.co`];
+  return person || `Vendor ${i + 1}`;
+}
+function vSigner(i){
+  const person = [S[`v${i}.first`], S[`v${i}.family`]].filter(Boolean).join(" ") || `Vendor ${i + 1}`;
+  if (isCompany(i) && S[`v${i}.co`]) return `${person}, director, for ${S[`v${i}.co`]}`;
+  if (cap(i) === CAPS[3]) return `${person}, as executor/administrator`;
+  if (cap(i) === CAPS[4]) return `${person}, as attorney/guardian`;
+  return person;
+}
+const RES = ["House", "Dual occupancy", "Unit", "Apartment", "Townhouse"];
+const COMM = ["Shop / office", "Factory"];
+const isRes = () => RES.includes(S.ptype);
+const isComm = () => COMM.includes(S.ptype);
+const isRural = () => S.ptype === "Farming / rural";
+const anyEntity = () => { for (let i = 0; i < vc(); i++) if (isCompany(i) || isTrust(i)) return true; return false; };
+const anyGst = () => { for (let i = 0; i < vc(); i++) if (S[`v${i}.gst`] === "Yes" || S[`v${i}.gstShould`] === "Yes") return true; return false; };
+const GST_T = ["No GST (not applicable)", "GST potentially applies, but may be exempt", "GST applies – margin scheme (GST included in the price)", "GST applies – price is plus 10% GST"];
+const needsAccountant = () => anyEntity() || isComm() || isRural() || S.ptype === "Vacant land" || anyGst() || (S.gstT && S.gstT !== GST_T[0]);
+function contractReasons(){
+  const r = [];
+  if (S.auction === "Yes") r.push("the property is going to auction");
+  if (isComm()) r.push("it is a commercial property");
+  if (isRural()) r.push("it is a farm / rural property");
+  if (anyEntity()) r.push("a company, trust or SMSF is selling");
+  if (S.gstT && S.gstT !== GST_T[0]) r.push("GST may apply to the sale");
+  if (S.agent === "No") r.push("you are selling without an agent");
+  if (S.oc === "Yes") r.push("the property is affected by an owners corporation");
+  return r;
+}
+
+/* building works */
+const WF = ["desc","start","finish","struct","permit","final","who","builder","reg","contract","abn","trades","cost","value"];
+const wn = () => Math.max(1, num(S.worksN) || 1);
+const wShort = i => { const d = (S[`w${i}.desc`] || "").trim(); return d ? `"${d.length > 38 ? d.slice(0, 38) + "…" : d}"` : `work ${i + 1}`; };
+const isOB = i => { const w = S[`w${i}.who`]; return !!w && (w !== "A registered builder" || S[`w${i}.contract`] === "No"); };
+function monthsSince(ym){ const m = /^(\d{4})-(\d{2})$/.exec(ym || ""); if (!m) return null; return (THIS_YEAR - +m[1]) * 12 + (TODAY.getMonth() + 1 - +m[2]); }
+
+/* =========================================================
+   STEPS
+   ========================================================= */
+function stepStart(){
+  let h = "";
+  h += note(`<p><b>Only the questions that apply to you will appear.</b> Answer as you go and extra questions open up underneath when they're needed. Most sellers finish in 15–20 minutes.</p><p>Selling a property carries strict disclosure obligations. Your answers let us prepare legally binding sale documents, give buyers confidence to pay the best price, and keep things smooth through to settlement.</p>`);
+  h += field("addr", "Street address of the property being sold", { req: true, hint: "Exactly as shown on your council rates notice.", ph: "e.g. 14 Pakington Street, Geelong West VIC 3218", auto: "street-address" });
+  h += when(S.addr, doc("a copy of your latest <b>council rates notice</b>"));
+  h += choice("vcount", "How many people or entities are selling (the vendors)?", ["1", "2", "3", "4"], { req: true, hint: "Usually everyone already registered on the title." });
+  for (let i = 0; i < vc(); i++){
+    h += choice(`v${i}.cap`, vc() > 1 ? `Vendor ${i + 1} is selling as…` : "The vendor is selling as…", CAPS, { req: true, list: true, pdf: `Vendor ${i + 1} capacity` });
+    if (cap(i) === CAPS[2]) h += sub(choice(`v${i}.tkind`, "Is the trustee an individual or a company?", ["An individual", "A company"], { req: true }) + doc(`the <b>trust deed</b> and any variations (vendor ${i + 1})`));
+    if (cap(i) === CAPS[3]) h += sub(doc(`the <b>death certificate</b>, <b>will</b> and <b>grant of probate / letters of administration</b> (vendor ${i + 1})`));
+    if (cap(i) === CAPS[4]) h += sub(doc(`the <b>power of attorney</b> or <b>guardianship order</b> (vendor ${i + 1})`));
+  }
+  return h;
+}
+
+function personBlock(i){
+  const p = `v${i}.`;
+  let h = "";
+  h += choice(p + "title", "Title", ["Mr", "Mrs", "Miss", "Ms", "Dr", "Other"]);
+  h += when(S[p + "title"] === "Other", field(p + "titleOther", "Other title"));
+  h += row("grid2", field(p + "first", "First name", { req: true, auto: "given-name" }) + field(p + "middle", "All middle names", { auto: "additional-name" }));
+  h += row("grid2", field(p + "family", "Family name", { req: true, auto: "family-name" }) + field(p + "salut", "Preferred name / salutation", { ph: "e.g. Bob" }));
+  h += field(p + "dob", "Date of birth", { type: "date" });
+  h += field(p + "addr", "Current address", { auto: "street-address" });
+  h += row("grid2", field(p + "postal", "Postal address", { hint: "If different." }) + field(p + "future", "Future address", { hint: "If you're moving and know it." }));
+  h += row("grid3", field(p + "mobile", "Mobile", { type: "tel", req: true, auto: "tel" }) + field(p + "home", "Home phone", { type: "tel" }) + field(p + "work", "Work phone", { type: "tel" }));
+  h += field(p + "email", "Email", { type: "email", req: true, auto: "email" });
+  return h;
+}
+function citizenship(i){
+  const p = `v${i}.`;
+  let h = choice(p + "aus", "Are you an Australian citizen?", ["Yes", "No"], { req: true, pdf: "Australian citizen" });
+  if (S[p + "aus"] === "No"){
+    let s = field(p + "country", "Country of citizenship");
+    s += yn(p + "pr", "Do you hold an Australian permanent residency visa?");
+    if (S[p + "pr"] === "No") s += yn(p + "nz", "Are you a New Zealand citizen holding a Special Category Visa (subclass 444)?");
+    h += sub(s);
+  }
+  const foreign = S[p + "aus"] === "No" && S[p + "pr"] === "No" && S[p + "nz"] === "No" ? "Yes" :
+                  (S[p + "aus"] === "Yes" || S[p + "pr"] === "Yes" || S[p + "nz"] === "Yes") ? "No" : "";
+  h += item("Foreign natural person (worked out from answers)", foreign);
+  if (foreign === "Yes") h += note(`<p><b>You may be a foreign natural person.</b> We'll talk to you about what this means for the sale.</p>`, "warn");
+  return h;
+}
+function stepVendors(){
+  if (!vc()) return note("Go back to the first step and tell us how many vendors are selling.", "warn");
+  let h = "";
+  for (let i = 0; i < vc(); i++){
+    const p = `v${i}.`;
+    h += group(`Vendor ${i + 1}${cap(i) ? ` · ${cap(i).replace(/^An? /, "")}` : ""}`);
+    if (!cap(i)){ h += note("Choose how this vendor is selling on the first step.", "warn"); continue; }
+    if (isTrust(i)){
+      h += row("grid2", field(p + "trust", "Full name of the trust", { req: true }) + sel(p + "ttype", "Type of trust", ["Self-managed super fund (SMSF)", "Discretionary / family trust", "Unit trust", "Other"]));
+    }
+    if (cap(i) === CAPS[3]) h += row("grid2", field(p + "deceased", "Full name of the deceased", { req: true }) + field(p + "dod", "Date of death", { type: "date" }));
+    if (cap(i) === CAPS[4]) h += field(p + "donor", "Full name of the person you are acting for", { req: true });
+    if (isCompany(i)){
+      h += row("grid2", field(p + "co", isTrust(i) ? "Trustee company name" : "Company name", { req: true }) + field(p + "acn", "ACN", { numeric: true, ph: "9 digits" }));
+      h += note("Please give the details of a director below. We'll contact you for any other directors' details.");
+    }
+    h += `${MODE ? "" : `<p class="eyebrow" style="margin:6px 0 -10px">${personLabel(i).toUpperCase()}</p>`}`;
+    h += personBlock(i);
+    if (!isCompany(i)) h += citizenship(i);
+  }
+  h += group("Anyone else we can talk to?");
+  h += yn("addc", "Would you like us to be able to discuss this sale with someone who isn't selling?", { hint: "For example a spouse, parent, son or daughter, accountant or friend. Saying yes gives us your authority to talk with them." });
+  if (S.addc === "Yes") h += sub(row("grid2", field("addcName", "Their name", { req: true }) + field("addcRel", "Relationship to you")) + row("grid2", field("addcPhone", "Phone", { type: "tel" }) + field("addcEmail", "Email", { type: "email" })));
+  return h;
+}
+
+const SERVICES = [
+  ["svcElec", "Mains electricity", ["Connected", "Not connected", "Not connected, but available", "Generator"]],
+  ["svcGas", "Mains gas", ["Connected", "Not connected", "Not connected, but available", "Bottled gas"]],
+  ["svcWater", "Mains water", ["Connected", "Not connected", "Not connected, but available", "Tank water"]],
+  ["svcSewer", "Mains sewerage", ["Connected", "Not connected", "Not connected, but available", "Septic tank"]],
+  ["svcPhone", "Landline telephone", ["Connected", "Not connected", "Not connected, but available", "VoIP phone via NBN"]],
+  ["svcTv", "Foxtel / pay TV", ["None", "By cable", "By satellite dish", "Other"]],
+  ["svcNbn", "NBN internet", ["Not connected", "Fibre to the premises (FTTP)", "Fibre to the curb (FTTC)", "Hybrid fibre-coaxial (cable)", "Satellite", "Connected, type unsure"]]
+];
+function stepProperty(){
+  let h = "";
+  h += choice("ptype", "What type of property are you selling?", ["House", "Dual occupancy", "Unit", "Apartment", "Townhouse", "Vacant land", "Farming / rural", "Shop / office", "Factory", "Carpark space only", "Marina berth", "Other"], { req: true });
+  if (S.ptype === "Other") h += sub(field("ptypeOther", "Please describe the property", { req: true }));
+  let dims = "";
+  if (isRes()) dims += field("beds", "Bedrooms", { type: "number" });
+  if (S.ptype && S.ptype !== "Apartment") dims += field("land", "Total land size", { type: "number", unit: "m²", hint: "Approximate is fine." });
+  if (isRural()) dims += field("ha", "Rural land area", { type: "number", unit: "ha" });
+  if (dims) h += row("grid3", dims);
+  if (isComm()){
+    h += field("nla", "Approximate nett lettable area", { type: "number", unit: "m²", live: true });
+    if ((num(S.nla) || 0) >= 1000) h += note(`<p><b>1,000 m² or more:</b> you'll need to supply a NABERS Energy rating.</p>`, "warn") + doc("a <b>NABERS Energy report / rating</b>");
+  }
+  if (isRural() || isComm()){
+    h += yn("plant", "Are you selling any water licence or water rights, unused road grazing licence, machinery, or commercial plant and equipment with the property?");
+    if (S.plant === "Yes") h += sub(field("plantDetails", "Please give details", { type: "area" }));
+  }
+  h += group("History");
+  h += row("grid2", field("built", "Year of construction", { numeric: true, hint: "Approximate, estimated or exact.", ph: "e.g. 1998" }) + field("bought", "Year you bought / acquired it", { numeric: true, live: true, ph: "e.g. 2021" }));
+  if (withinYears(S.bought, 6)) h += doc("a full copy of the <b>sale documents from when you bought</b> (the Contract of Sale and Section 32 Vendor Statement). You bought less than seven years ago.");
+
+  h += group("Service connections");
+  h += MODE ? "" : `<p class="hint" style="margin-top:-10px">Tell us what the property is connected to.</p>`;
+  h += row("grid2", SERVICES.map(([k, l, o]) => sel(k, l, o)).join(""));
+
+  h += group("Easements");
+  h += note("Easements often protect underground sewerage or stormwater drainage pipes, usually along the back fence but sometimes along a side fence or through the yard. Anything built over them must be disclosed in the Section 32, including works done by previous owners.");
+  h += yn("ease", "Is anything built over, or within 1.0 m of, an easement?", { hint: "For example a garage, pergola, deck, fixed garden shed or cubby house." });
+  if (S.ease === "Yes") h += sub(field("easeDetails", "What has been built, and where?", { type: "area", req: true }));
+
+  h += group("Cladding");
+  h += yn("clad", "Is there any cladding or combustible material affecting the property?", { hint: "Includes an Emergency Order, Building Notice or Building Order issued to you or your owners corporation after the Victorian Building Authority cladding audit." });
+  if (S.clad === "Yes") h += sub(yn("cladAgree", "Have you entered into an agreement with council or any other body about rectification works?") + field("cladDetails", "Details", { type: "area" }));
+  return h;
+}
+
+function stepTitle(){
+  let h = "";
+  h += choice("titleHeld", "Where is the original Certificate of Title held?", ["My bank / lender", "Another conveyancer", "I hold the paper title", "It's already an electronic title (eCT) after a recent transaction", "Other", "I'm not sure / it may be lost"], { list: true, req: true });
+  if (S.titleHeld === "I hold the paper title") h += sub(note(`<p><b>Please drop the ORIGINAL title at our office as soon as you can</b>, before you start packing if you're moving house. It must be the original, not a photocopy.</p>`, "warn") + doc("the <b>original paper Certificate of Title</b> (drop in to 72A Little Ryrie Street)"));
+  if (S.titleHeld && S.titleHeld.startsWith("It's already")) h += sub(field("ectWhy", "What was the recent transaction?", { ph: "e.g. refinance in 2023" }));
+  if (S.titleHeld === "Other") h += sub(field("titleOther", "Who holds it?"));
+  if (S.titleHeld && S.titleHeld.startsWith("I'm not sure")) h += sub(note(`<p><b>A lost title can be replaced</b>, but it costs about $1,500 and takes around 4 weeks. If you can't find it, tell us and your agent straight away, otherwise a 30-day settlement may not be possible.</p>`, "warn"));
+  h += row("grid4", field("vol", "Volume", { hint: "If known" }) + field("fol", "Folio", { hint: "If known" }) + field("lot", "Lot", { hint: "If known" }) + field("plan", "Plan", { hint: "If known" }));
+
+  h += group("Extra titles or areas");
+  h += yn("extra", "Are there any extra titles or other areas sold with the property?", { hint: "Common with apartments and units: carparks, storage cages, accessory lots, areas held on a 99-year lease or licence, or old laneways that have been fenced in." });
+  if (S.extra === "Yes"){
+    let s = choice("extraT", "Which of these apply?", ["Carparks", "Storage units", "Other accessory units on title", "Other areas on a 99-year lease or licence", "Portions of disused laneways"], { multi: true, list: true, req: true });
+    if (has("extraT", "Carparks")) s += sub(field("cpN", "How many carparks?", { type: "number" }) + choice("cpLoc", "Where are they?", ["Open space in a basement", "In a car stacker or carousel in a basement", "Open space at ground level", "Carport at ground level", "Enclosed garage at ground level", "Other location or arrangement"], { multi: true, list: true }) + when(has("cpLoc", "Other location or arrangement"), field("cpOther", "Please describe", { type: "area", hint: "e.g. an unofficial carpark swap with another owner, or a lease/licence over a space on common property." })));
+    if (has("extraT", "Storage units")) s += sub(field("stN", "How many storage units?", { type: "number" }) + choice("stLoc", "Where are they?", ["In the basement, in a separate area away from any carpark", "In the basement, at concrete level at the end of a carpark (part of the carpark title)", "In the basement, \"over bonnet\" and part of a carpark title", "On the same level as the apartment, near the front door", "Other location or arrangement"], { multi: true, list: true }) + when(has("stLoc", "Other location or arrangement"), field("stOther", "Please describe", { type: "area" })));
+    if (has("extraT", "Other accessory units on title")) s += sub(field("accDetails", "Details of the accessory units", { type: "area" }));
+    if (has("extraT", "Other areas on a 99-year lease or licence")) s += sub(field("leaseArea", "Details of the leased / licensed area", { type: "area" }) + doc("the <b>lease or licence</b> for the extra area, plus a simple diagram if it helps"));
+    if (has("extraT", "Portions of disused laneways")) s += sub(field("lane", "Details of the laneway", { type: "area", hint: "Purchased from council long ago, or fenced in and used for many years at the side or rear?" }) + doc("a simple <b>diagram of the laneway</b> if you can"));
+    h += sub(s);
+  }
+  return h;
+}
+
+function stepRates(){
+  let h = "";
+  h += row("grid2", field("council", "Council", { ph: "e.g. City of Greater Geelong" }) + field("water", "Water authority", { ph: "e.g. Barwon Water" }));
+  h += yn("levy", "Are there any other periodic charges on the property?", { hint: "For example a congestion or parking space levy, a licence fee, or a Growth Areas Infrastructure Contribution (GAIC)." });
+  if (S.levy === "Yes") h += sub(field("levyDetails", "What are they, and how much?", { type: "area", ph: "e.g. GAIC – $12,400" }));
+  h += yn("otherOut", "Is the property subject to any other outgoings, or does it earn any income?", { hint: "For example resort or golf club membership, VicTrack licence fees, mooring or jetty licence fees, or income from a billboard or telecommunications tower." });
+  if (S.otherOut === "Yes") h += sub(field("otherOutDetails", "Please give details", { type: "area" }));
+
+  h += group("Owners corporation and common property");
+  h += yn("oc", "Is the property affected by an owners corporation, or does it share any common property, such as a shared driveway?", { req: true });
+  if (S.oc === "Yes"){
+    let s = field("ocMgr", "Owners corporation manager or secretary", { type: "area", hint: "Person and company, with address, email and phone. Leave blank if there isn't one.", pdf: "OC manager / secretary" });
+    s += choice("ocActive", "In the last 15 months, has the owners corporation done ANY of these?", ["Yes", "No"], { req: true, pdf: "OC active (AGM, levies or insurance in last 15 months)", hint: "Held an annual general meeting · fixed any fees or levies for members to pay · held any shared insurance in the name of the owners corporation." });
+    if (S.ocActive === "Yes"){
+      let a = note(`<p><b>Your owners corporation is "active".</b> The Section 32 will need an Owners Corporation Certificate and OC information.</p>`, "");
+      a += row("grid2", field("agmLast", "Date of the last AGM", { type: "date" }) + field("agmNext", "Date of the next AGM, if already called", { type: "date" }));
+      a += note(`<p><b>If an AGM is scheduled or held before the day of sale, you must let us know</b>, as the new minutes have to go into an updated Section 32.</p>`, "warn");
+      a += yn("ocPrep", "Do you need us to prepare the Owners Corporation Certificate?", { hint: "Choose yes if your OC has no licensed manager, and no owner acting as secretary who has issued a certificate before. The certificate must be signed by a licensed OC manager, or by owners of two different lots. Additional costs apply." });
+      if (S.ocPrep === "No") a += note("Please make sure the manager or secretary's details above are complete so we can request the certificate.");
+      s += sub(a);
+    }
+    if (S.ocActive === "No"){
+      let n = choice("ocLots", "How many lots are in the subdivision?", ["2 lots", "3 or more lots"], { req: true });
+      if (S.ocLots === "3 or more lots") n += note(`<p><b>Insurance is required.</b> With 3 or more lots and common property (such as a shared driveway), the owners corporation must hold public liability insurance under the <i>Owners Corporations Act 2006</i>. This makes it "active" and an OC Certificate will be required. Without the insurance, the buyer may terminate the contract at any time up to settlement.</p>`, "warn") + doc("a copy of the <b>owners corporation public liability insurance</b> policy");
+      if (S.ocLots === "2 lots") n += note("Two-lot subdivisions are almost always exempt from needing OC insurance.", "ok");
+      s += sub(n);
+    }
+    h += sub(s);
+  }
+  return h;
+}
+
+function stepTenancy(){
+  let h = "";
+  h += yn("rented", "Is the property currently rented, or occupied by someone other than you?", { req: true });
+  if (S.rented === "Yes"){
+    let s = field("pm", "Rental property manager", { type: "area", hint: "Person and company, with address, email and phone. Leave blank if you manage it yourself." });
+    s += yn("lease", "Is there a written lease or tenancy agreement?", { req: true });
+    if (S.lease === "Yes") s += doc("a full copy of the <b>residential tenancy / lease agreement</b> and any extensions or variations");
+    s += yn("vp", "Will the property be sold with vacant possession?", { req: true, hint: "Vacant possession means the tenants are given notice to leave before settlement." });
+    if (S.vp === "Yes") s += note("The tenants will need to be given notice to vacate. If you manage the rental yourself you'll need to do this; otherwise ask your property manager.");
+    if (S.vp === "No" && S.lease === "No"){
+      let l = note("<p><b>You're selling with the tenant in place and there's no written lease,</b> so we need the lease details.</p>", "warn");
+      l += row("grid2", field("tenants", "Name of tenant(s)", { req: true }) + field("rent", "Rent payable", { money: true, ph: "e.g. 520 per week" }));
+      l += yn("arrears", "Is any rent in arrears?");
+      if (S.arrears === "Yes") l += sub(field("arrearsAmt", "How much?", { money: true }));
+      l += field("expiry", "When does the lease expire?", { type: "date" });
+      l += yn("bond", "Did you collect a bond?");
+      if (S.bond === "Yes") l += sub(row("grid2", field("bondAmt", "Bond amount", { money: true }) + field("bondHolder", "Who holds the bond?", { ph: "e.g. RTBA" })));
+      l += yn("breach", "Is the tenant in breach of the lease?");
+      if (S.breach === "Yes") l += sub(field("breachDetails", "Please give details", { type: "area" }));
+      l += yn("relief", "Is there any extra agreement with the tenant, such as rent relief, deferral, a rent-free period, abatement or rebate?");
+      if (S.relief === "Yes") l += sub(field("reliefDetails", "Please give details", { type: "area" }));
+      s += sub(l);
+    }
+    h += sub(s);
+  }
+  return h;
+}
+
+function workBlock(i){
+  const p = `w${i}.`;
+  let h = field(p + "desc", "Describe the works", { type: "area", rows: 2, req: true, ph: "e.g. Added new attached deck with covered pergola" });
+  h += row("grid2", field(p + "start", "Date started", { type: "month" }) + field(p + "finish", "Date finished", { type: "month", live: true }));
+  h += yn(p + "struct", "Did the works involve structural changes?", { hint: "e.g. moving a doorway, enlarging a window, pad footings, retaining walls." });
+  h += row("grid2", yn(p + "permit", "Did you get a building permit?") + yn(p + "final", "Did you get a certificate of final inspection or occupancy?"));
+  if (S[p + "permit"] === "Yes") h += doc(`the <b>building permit</b> for ${wShort(i)}`);
+  if (S[p + "final"] === "Yes") h += doc(`the <b>certificate of final inspection / occupancy</b> for ${wShort(i)}`);
+  h += choice(p + "who", "Who did the works?", ["A registered builder", "I did them myself", "I hired individual trades myself", "Someone else (e.g. a handyman)"], { list: true, req: true });
+  if (S[p + "who"] === "A registered builder"){
+    h += sub(row("grid2", field(p + "builder", "Builder's name") + field(p + "reg", "VBA registration number", { ph: "e.g. DB-U 12345" })) + row("grid2", yn(p + "contract", "Was there a single written contract?") + field(p + "abn", "Builder's ABN", { numeric: true })));
+  }
+  if (S[p + "who"] && S[p + "who"] !== "A registered builder") h += field(p + "trades", "How many different contractors were involved?", { type: "number", hint: "e.g. plumber, tiler, electrician, painter = 4" });
+  h += row("grid2", field(p + "cost", "Actual cost or agreed price", { money: true, numeric: true }) + field(p + "value", "Value if done by a registered builder", { money: true, numeric: true, live: true, hint: "For owner-builders this is usually at least 20% more than the cost." }));
+
+  const ob = isOB(i);
+  if (ob){
+    h += item("Likely owner-builder work", "Yes");
+    let t = `<p><span class="flag">Owner-builder</span></p><p style="margin-top:6px">This work is likely to be classed as <b>owner-builder work</b>. You'll need an Owner Builder Inspection Report (section 137B of the <i>Building Act</i>), less than six months old when you sell. We can recommend a prompt, reasonably priced inspector.</p>`;
+    h += note(t, "warn") + doc(`an <b>owner-builder defects inspection report</b> (s137B) for ${wShort(i)}`);
+    const ms = monthsSince(S[p + "finish"]);
+    const v = num(S[p + "value"]);
+    const win = S[p + "struct"] === "Yes" ? 72 : 24;
+    if (ms != null && v != null && v >= 16000 && ms < win){
+      h += note(`<p><b>Domestic building insurance is needed.</b> The works were finished less than ${win / 12} years ago and are valued at $16,000 or more. It must be bought before you sign a contract to sell (it can usually be cancelled and refunded if the property doesn't sell).</p>`, "warn") + doc(`<b>owner-builder domestic building (warranty) insurance</b> for ${wShort(i)}`);
+    } else if (ms == null || v == null){
+      h += note("Add the finish date and value above and we'll tell you whether domestic building insurance is also needed.");
+    }
+  } else if (S[p + "who"] === "A registered builder" && (num(S[p + "cost"]) || 0) > 16000){
+    h += doc(`the <b>builder's domestic building (home warranty) insurance certificate</b> for ${wShort(i)}`);
+  }
+  return h;
+}
+function stepBuilding(){
+  let h = "";
+  h += group("Notices and neighbours");
+  h += yn("notices", "Have you received any notices, orders, letters, flyers or information from a government or statutory authority?", { hint: "For example: council planning (\"Do you want to object to a nearby planning proposal?\"), re-zoning or a new overlay; VicRoads road widening, closures, speed bumps or roundabouts; level crossing or major infrastructure projects; the Victorian Building Authority (cladding, defects); council building department or local laws (overhanging trees, long grass or weeds)." });
+  if (S.notices === "Yes") h += sub(field("noticesDetails", "Briefly, what were they about?", { type: "area" }) + doc("copies of the <b>notices, orders, letters or flyers</b>"));
+  h += yn("neigh", "Have you sent or received any Fences Act, Building Act or other notices from neighbours, or discussed replacing, maintaining or repairing fences or party walls?");
+  if (S.neigh === "Yes") h += sub(field("neighDetails", "Please give details", { type: "area" }) + doc("copies of the <b>notices, proposals or quotes</b> about fences or walls"));
+  h += yn("disputes", "Have there been any disputes with neighbours or others about the property or a nearby property?", { hint: "For example fences or trees causing sewer or structural problems, repeated noise, threats, violent behaviour, repeated obscene language or police attendances." });
+  if (S.disputes === "Yes") h += sub(field("disputeDetails", "Please give details", { type: "area", req: true }));
+
+  h += group("Planning permits");
+  h += yn("permits", "Have any planning permits been issued, or applied for and refused, in the last 7 years, or granted earlier with conditions that still apply?", { hint: "Planning permits come from council or VCAT and are different to building permits." });
+  if (S.permits === "Yes") h += sub(field("permitDetails", "Please give details", { type: "area" }) + doc("full copies of the <b>planning permit(s)</b> and <b>endorsed plans</b>"));
+
+  h += group("Building works in the last 7 years");
+  h += yn("works", "Has any building work been done at the property in the last 7 years, including repairs and maintenance?", { req: true, hint: "Include work done by you, a builder or trades. Buyers often compare today's floor plan and photos with the previous sale." });
+  if (S.works === "Yes"){
+    let s = "";
+    for (let i = 0; i < wn(); i++){
+      if (MODE){ s += group(`Building work ${i + 1}`) + workBlock(i); continue; }
+      s += `<div class="work"><div class="work-h"><b>Work ${i + 1}</b>${wn() > 1 ? `<button type="button" class="link" data-act="rmWork" data-i="${i}">Remove</button>` : ""}</div>${workBlock(i)}</div>`;
+    }
+    if (!MODE) s += `<button type="button" class="add" data-act="addWork">+ Add another piece of work</button>`;
+    h += sub(s);
+  }
+  h += group("Warranties and certificates");
+  h += choice("warr", "Do you hold any current long-term warranties or certificates you'd like included in the Vendor Statement?", ["Builder's voluntary structural warranty", "Urethane chemical underpinning warranty", "Re-stumping warranty", "Re-roofing warranty", "Termite / pest treatment certificate", "Electrical certificate of compliance", "Plumbing certificate of compliance", "Other", "None"], { multi: true, list: true, excl: "None", hint: "Optional, but they give buyers comfort." });
+  if (has("warr", "Other")) h += sub(field("warrOther", "What else?", { type: "area" }));
+  if (Array.isArray(S.warr) && S.warr.some(w => w !== "None")) h += doc("copies of the <b>warranties / certificates</b> you ticked");
+  h += note("<p><b>A word of warning.</b> The <i>Building Act 1993</i> has substantial penalties for work done without a required building permit, and putting a property on the market increases the chance of it being noticed. If you're unsure about anything here, call us before you list.</p>");
+  return h;
+}
+
+function stepPool(){
+  let h = "";
+  h += yn("pool", "Does the property have a swimming pool?", { req: true });
+  h += yn("spa", "Does it have an outdoor spa, pond or water feature 30 cm or more deep?", { req: true });
+  if (S.pool === "Yes" || S.spa === "Yes"){
+    let s = field("poolYear", "Year the pool / spa / water feature was built", { numeric: true, live: true, ph: "e.g. 2016" });
+    if (withinYears(S.poolYear, 6)) s += doc("the pool's <b>building permit</b>, <b>final inspection certificate</b> and <b>warranty insurance</b> (built in the last 7 years)");
+    s += note(`<p>Since 1 November 2020 all pools and spas capable of holding more than 30 cm of water must be <b>registered with council</b>, then inspected for a <b>Certificate of Barrier Compliance</b> (renewed every 4 years).</p><div class="tbl"><table><thead><tr><th>Pool / spa built</th><th>Certificate due by</th></tr></thead><tbody><tr><td>On or before 30 June 1994</td><td>1 June 2022</td></tr><tr><td>1 July 1994 – 30 April 2010</td><td>1 June 2023</td></tr><tr><td>1 May 2010 – October 2020</td><td>1 June 2024</td></tr><tr><td>After October 2020</td><td>With the final inspection</td></tr></tbody></table></div>`);
+    const STG = ["Registered with council", "Council has confirmed the age, Australian Standard and compliance date", "Inspected by a registered pool inspector", "Inspector listed maintenance items that I won't fix before sale", "Certificate of Barrier Compliance issued"];
+    s += choice("poolStage", "Which stages of registration and compliance are done?", STG, { multi: true, list: true, hint: "Tick all that apply." });
+    if (has("poolStage", STG[0])) s += doc("the council's <b>confirmation of pool registration</b>");
+    if (has("poolStage", STG[1])) s += doc("the <b>council letter</b> confirming age, standard and compliance date");
+    if (has("poolStage", STG[3])) s += note("That's only OK if the inspection report goes in the Section 32 and settlement is comfortably before your compliance date.", "warn") + doc("the pool <b>inspection report</b>");
+    if (has("poolStage", STG[4])) s += doc("the <b>Certificate of Barrier Compliance</b>");
+    if (!has("poolStage", STG[0])) s += note("<p><b>Not registered yet?</b> Council fines apply for failing to register. Please call us or your council.</p>", "warn");
+    h += sub(s);
+  }
+  h += group("Alarm and solar");
+  h += yn("alarm", "Does the property have an alarm system?");
+  if (S.alarm === "Yes"){
+    h += sub(yn("alarmMon", "Is it under a monitoring contract or agreement?") + when(S.alarmMon === "Yes", note("Please leave the contact and reference details with your agent to pass to the buyer after settlement, or leave them in the house.")));
+  }
+  h += yn("solar", "Does the property have solar panels?");
+  if (S.solar === "Yes"){
+    let s = yn("solarFin", "Are they under a finance, hire-purchase or similar agreement?");
+    if (S.solarFin === "Yes") s += sub(field("solarDetails", "Finance provider and details", { type: "area" }) + note("These are usually paid out by you at settlement. If not, leave the contact and reference details with your agent for the buyer."));
+    h += sub(s);
+  }
+  return h;
+}
+
+function stepGST(){
+  let h = "";
+  for (let i = 0; i < vc(); i++){
+    const p = `v${i}.`;
+    h += group(vc() > 1 ? `Vendor ${i + 1} · ${vName(i)}` : vName(i));
+    h += yn(p + "gst", "Is this vendor registered for GST?", { req: true, pdf: "Registered for GST" });
+    if (S[p + "gst"] === "No") h += sub(choice(p + "gstShould", "Should this vendor be registered for GST?", ["Yes", "No", "Not sure"], { pdf: "Should be registered for GST" }));
+    if (S[p + "gst"] === "Yes" || S[p + "gstShould"] === "Yes" || isCompany(i) || isTrust(i)) h += field(p + "abn", isTrust(i) ? "ABN of the trust (not the trustee company)" : "ABN of the vendor", { numeric: true, ph: "11 digits", pdf: "ABN" });
+  }
+  if (needsAccountant()){
+    h += group("Your accountant");
+    h += note("Because this sale involves a company, trust, SMSF, commercial, rural or development land, or GST may apply, we'll work with your accountant or tax adviser. Filling this in authorises us to contact them for correct GST treatment and withholding.");
+    h += row("grid2", field("accName", "Accountant (firm and person)", { req: true }) + field("accEmail", "Accountant's email", { type: "email" }));
+    h += row("grid2", field("accOffice", "Office phone", { type: "tel" }) + field("accMobile", "Mobile", { type: "tel" }));
+  }
+  h += group("How GST applies to this sale");
+  h += choice("gstT", "I/we confirm the Contract of Sale is to be subject to:", GST_T, { req: true, list: true, hint: "Most people selling a home they've lived in choose \"No GST\". If you're unsure, check with your accountant before answering." });
+  if (S.gstT === GST_T[0]) h += sub(choice("gstNo", "Why doesn't GST apply? Tick at least one.", ["All vendors are not registered for GST (and don't need to be)", "It's previously occupied residential property, and not the first sale after a new build or substantial renovation", "The sale is not in the course or furtherance of an enterprise"], { multi: true, list: true, req: true }));
+  if (S.gstT === GST_T[1]) h += sub(choice("gstEx", "Why may it be exempt? Tick at least one.", ["Going concern – fully leased (or advertised for lease) investment", "Farmland – a farming business is carried on and will continue"], { multi: true, list: true, req: true }));
+  if (S.gstT === GST_T[2] || S.gstT === GST_T[3]) h += sub(note("<p><b>GST withholding may apply.</b> For new residential property and newly subdivided residential land, the buyer may have to withhold the GST and pay it to the ATO at settlement. Please confirm the withholding amount with your accountant. We can't complete the documents until GST is resolved.</p>", "warn"));
+  h += note(`<p style="font-size:13px;color:var(--muted)">We're not financial or tax advisers. By answering these GST questions you confirm you've had appropriate advice, and you indemnify Choice Conveyancing against payments or penalties arising from incorrect, incomplete or misleading information given here.</p>`);
+  return h;
+}
+
+function stepFinance(){
+  let h = "";
+  h += field("price", "Estimated total sale price", { money: true, numeric: true, ph: "e.g. 750,000" });
+  h += yn("mort", "Is there a mortgage registered on the property?", { req: true });
+  if (S.mort === "Yes"){
+    let s = row("grid2", field("lender", "Bank / lender", { req: true }) + field("owed", "Approximate amount owed", { money: true, numeric: true }));
+    s += row("grid2", field("custId", "Client / customer / member ID") + field("loanNo", "Loan account number(s)"));
+    s += yn("collat", "Is the property security for any other loans?", { hint: "For example collateral for a business loan or another property." });
+    if (S.collat === "Yes") s += sub(field("linkedLoan", "Linked loan number(s)") + field("otherSec", "Address of the other security property") + field("guar", "If the other loan or property is in a different name, or has guarantors: whose names?", { type: "area", rows: 2 }));
+    s += field("banker", "Your banker's name and contact details", { hint: "Only if you have a specific business, private or personal banker." });
+    h += sub(s);
+  }
+  h += group("Where should surplus funds go?");
+  h += note("After loans and sale costs are paid, we'll deposit the balance here. If it needs to be split between accounts, tell us in the notes.");
+  h += row("grid2", field("sBank", "Bank") + field("sName", "Account name"));
+  h += row("grid2", field("sBsb", "BSB", { numeric: true, ph: "000-000" }) + field("sAcc", "Account number", { numeric: true }));
+  h += field("sSplit", "Notes on splitting funds", { hint: "Optional." });
+  return h;
+}
+
+function daysUntil(d){ const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || ""); if (!m) return null; const t = new Date(+m[1], +m[2] - 1, +m[3]); const n = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate()); return Math.round((t - n) / 86400000); }
+function stepSale(){
+  let h = "";
+  h += group("Real estate agent");
+  h += yn("agent", "Are you selling through a real estate agent?", { req: true });
+  if (S.agent === "Yes") h += sub(row("grid2", field("agency", "Real estate agency", { req: true }) + field("agencyAddr", "Office address")) + row("grid2", field("agencyPhone", "Office phone", { type: "tel" }) + field("agencyEmail", "Office email", { type: "email" })) + row("grid3", field("salesPerson", "Salesperson") + field("spMobile", "Mobile", { type: "tel" }) + field("spEmail", "Email", { type: "email" })));
+  if (S.agent === "No") h += sub(note("<p>Without an agent, we must prepare the Contract of Sale and the deposit must be held in our trust account. Additional fees apply.</p>"));
+
+  h += group("Auction");
+  h += yn("auction", "Is the property being sold at auction?", { req: true });
+  if (S.auction === "Yes"){
+    let s = field("auctionDate", "Auction date", { type: "date", live: true });
+    const d = daysUntil(S.auctionDate);
+    if (d != null && d < 28) s += note(`<p><b>That's ${d < 0 ? "in the past" : d === 0 ? "today" : `only ${d} day${d === 1 ? "" : "s"} away`}.</b> We need at least 4 weeks' notice to order searches and prepare documents. Please call us on ${CONFIG.officePhone} today.</p>`, "warn");
+    else s += note("We need at least 4 weeks' notice before an auction to order searches and prepare the documents.");
+    h += sub(s);
+  }
+
+  h += group("Contract of Sale");
+  const r = contractReasons();
+  if (r.length){
+    h += note(`<p><b>We'll prepare your Contract of Sale.</b> It's required because ${r.join(", ")}. We may need to liaise with your accountant, and further charges may apply.</p>`, "ok");
+    h += item("Contract of Sale to be prepared by Choice Conveyancing", "Yes – required (" + r.join("; ") + ")");
+  } else {
+    h += yn("contract", "Would you like us to prepare the Contract of Sale?", { req: true, hint: "We recommend it. Our special conditions protect you if there's a delay or complication. Our standard fee applies for an existing residential property; complex or custom conditions cost more." });
+  }
+
+  h += group("Inclusions and exclusions");
+  h += yn("incStd", "Is the standard description of inclusions enough?", { hint: "\"All fixed floor coverings, all fixed light fittings and all window furnishings, all fixtures and fittings of a permanent nature.\"" });
+  h += yn("incExtra", "Are there other items you'd like listed in the contract as included?", { hint: "Listing inclusions gives buyers comfort and helps you make a sale. Common ones: dishwasher, plumbed-in fridge, solar panels, TV antenna, alarm or CCTV, irrigation, pool equipment, remotes, outdoor furniture, large potted plants." });
+  if (S.incExtra === "Yes" || S.incStd === "No") h += sub(field("incList", "List the inclusions, separated by commas", { type: "area", req: true, ph: "e.g. Bosch dishwasher, Samsung plumbed fridge, 6.6 kW solar system, pool pump and cleaner" }));
+  h += yn("excStd", "Is the standard description of exclusions enough?", { hint: "\"All vendor's (and tenant's, if applicable) freestanding furniture, contents and personal effects.\"" });
+  h += yn("excExtra", "Is anything else being excluded from the sale?");
+  if (S.excExtra === "Yes" || S.excStd === "No") h += sub(field("excList", "List the exclusions", { type: "area", req: true, ph: "e.g. Pendant light in dining room, garden statue" }) + note("<p><b>Please also tell your agent in writing</b> about the items being excluded.</p>", "warn"));
+
+  h += group("Rights and interests of others");
+  h += yn("rights", "Is the property subject to any separations, court orders, prior contracts, rights of first refusal, life estates or other agreements?", { req: true });
+  if (S.rights === "Yes") h += sub(choice("rightsT", "Which apply?", ["Separation and/or divorce", "Family Court orders / binding written or financial agreements", "Other court orders or proceedings", "A prior contract that must be terminated before you can re-sell", "A first right of refusal", "A life estate", "Another agreement giving someone a right or interest in the property"], { multi: true, list: true, req: true }) + field("rightsDetails", "Please give details", { type: "area" }));
+
+  h += group("Caveats");
+  h += yn("caveat", "Are there any caveats registered on the title?");
+  if (S.caveat === "Yes") h += sub(row("grid2", field("caveator", "Caveator") + field("cavAmt", "If securing a charge, approximate amount owed", { money: true, numeric: true })) + field("cavNature", "If another claim, what is it?", { type: "area", rows: 2 }));
+  return h;
+}
+
+const FACTS = [
+  "Inspections, tests or investigations have revealed a defect in the structure (e.g. a \"patched up\" crack), termite infestation, combustible cladding, asbestos (including loose-fill insulation) or soil contamination",
+  "The underlying cause of an obvious defect isn't apparent on inspection (e.g. defective stumping or foundations, tree roots, a leaking sewer)",
+  "There has been a significant event at the property, such as a flood or fire",
+  "There is a history of pesticide use (e.g. horticultural or agricultural use)",
+  "There are restrictions on vehicle access that aren't obvious on inspection (e.g. truck curfews, access via easement or private agreement not on the title or plans)",
+  "Access to the property is ONLY by an easement over someone else's land (it's \"landlocked\" with no public road frontage)",
+  "Someone else has for a long time accessed their property across, over or along this property, and it isn't shown on title",
+  "Someone else has for a long time run water, gas, electricity or other services across, under or along this property, and it isn't shown on title",
+  "Street parking in front of the property requires parking permits",
+  "The street is permit parking, but I have parking permit(s) for the street",
+  "The property contains a \"significant tree\" that needs a permit to remove or trim",
+  "At least one fence is not on the correct boundary (the land as fenced doesn't match the title plan)",
+  "The property was previously owned or occupied by a \"notorious\" former owner or resident",
+  "One or more appliances or inclusions are NOT working (e.g. pool equipment, dishwasher, heating, cooling)",
+  "Apart from a registered mortgage or caveat, there's other finance on included items (e.g. part-paid solar panels)",
+  "Soil or other environmental contamination of adjoining or nearby land",
+  "A nearby rooming house or property known for police attendances or council complaints",
+  "A planning permit has been applied for or issued for a nearby property",
+  "Neighbourhood facts not apparent on inspection (e.g. sinkholes, surface subsidence, nearby development proposals)",
+  "A previous planning permit application for this property was refused",
+  "Building or other work was done without a required building permit or planning permit, or is otherwise illegal",
+  "The property has been the scene of a serious crime or event creating long-term health or safety risks",
+  "Extreme violence, a homicide, manslaughter, rape or suicide at the property",
+  "The property has been used to grow, supply or manufacture drugs (e.g. a drug lab or marijuana crop)",
+  "Defence or fire brigade training site involving hazardous materials",
+  "Other material fact",
+  "None of the above"
+];
+function stepFacts(){
+  let h = "";
+  h += note(`<p>Since 1 March 2020, vendors and agents <b>cannot knowingly conceal a material fact</b>: anything likely to matter to a buyer deciding whether to buy, or at what price. Under section 12(d) of the <i>Sale of Land Act</i>, concealment can mean a penalty of 120 penalty units or up to 12 months' imprisonment, as well as a lost sale or a claim for damages.</p>`, "warn");
+  h += choice("facts", "Please read carefully and tick anything that applies", FACTS, { multi: true, list: true, req: true, excl: "None of the above", pdf: "Material facts disclosed" });
+  if (has("facts", FACTS[13])) h += sub(field("factsAppl", "Which appliances or inclusions aren't working?", { type: "area", rows: 2, req: true }));
+  if (has("facts", FACTS[17])) h += sub(field("factsNearby", "Address of the nearby property and basic details", { type: "area", rows: 2 }) + doc("the <b>\"Do you want to object?\" letter</b> for the nearby permit, if you have it"));
+  if (has("facts", FACTS[11])) h += sub(field("factsFence", "Please give accurate details of the fence position", { type: "area", rows: 2 }));
+  if (has("facts", FACTS[9])) h += sub(doc("copies of your <b>street parking permits</b>"));
+  if (has("facts", "Other material fact")) h += sub(field("factsOther", "Describe the other material fact", { type: "area", req: true }));
+  const others = Array.isArray(S.facts) && S.facts.filter(f => f !== "None of the above" && ![13, 17, 11, 9, 25].map(n => FACTS[n]).includes(f)).length;
+  if (others) h += sub(field("factsDetails", "Anything more we should know about the items you ticked?", { type: "area", rows: 3 }));
+  h += MODE ? "" : `<p class="facts-src">Unsure whether something counts? Read Consumer Affairs Victoria's <a href="https://www.consumer.vic.gov.au/housing/buying-and-selling-property/selling-property/preparing-to-sell-your-property" target="_blank" rel="noopener">guide to preparing to sell your property</a>.</p>`;
+  return h;
+}
+
+const ACK = [
+  "The Contract of Sale and Section 32 Vendor Statement will be prepared based on these Sale Instructions, but can become invalid over time.",
+  "There is no strict time limit, but the chance of problems rises significantly after 2–3 months. Many buyers won't rely on a Section 32, search or certificate older than three months, or if circumstances have changed.",
+  "You will notify us by telephone and then email if anything in these instructions changes between now and settlement. Keep a copy and review it just before signing to sell.",
+  "The information in the Section 32 must be true, correct, complete and not misleading as at the day of sale.",
+  "The purchaser may be entitled to avoid the contract if the Section 32 is untrue, incorrect, incomplete or misleading as at the day of sale.",
+  "Choice Conveyancing can and will rely on the truth, accuracy and completeness of the information you've provided, and you indemnify Choice Conveyancing in relation to that and any matter arising from reliance on these Sale Instructions."
+];
+const AUTH = [
+  "By returning these Sale Instructions to Stantec Pty Ltd ACN 169 306 549, trading as Choice Conveyancing, I/we engage Choice Conveyancing to carry out the conveyancing on my/our behalf. I/we acknowledge that costs and disbursements will be incurred from the date Choice Conveyancing receives these instructions, and I/we agree to pay Choice Conveyancing's account for all work done on the sale documents on 14-day account terms, in accordance with the Cost Disclosure I/we have received, read and understood.",
+  "I/we agree to secure payment to Choice Conveyancing by granting a charge over all my/our right, title and interest in the property for any invoices issued under these instructions and the Cost Disclosure.",
+  "I/we authorise and instruct you to prepare the Section 32 Vendor Statement and any other documents required and instructed above (for example a Contract of Sale and, if required, a self-managed Owners Corporation Certificate), relying on and disclosing (even if potentially in conflict with the Privacy Act 1988) the information supplied in these instructions."
+];
+function stepSign(){
+  let h = "";
+  if (!MODE){
+    const all = collectAll();
+    const miss = all.filter(s => s.missing.length && s.i !== cur);
+    if (miss.length){
+      h += `<div class="panel miss" id="missPanel"><h3>A few answers are still needed</h3><ul>${miss.map(s => `<li><span><b>${esc(s.t)}:</b> ${esc(s.missing.slice(0, 3).join(", "))}${s.missing.length > 3 ? ` and ${s.missing.length - 3} more` : ""}</span><button type="button" class="link" data-act="goto" data-step="${s.i}">Go to section</button></li>`).join("")}</ul></div>`;
+    }
+    const docs = [...new Set(all.flatMap(s => s.docs))];
+    h += `<div class="panel docs"><h3>Documents to send us (${docs.length})</h3>${docs.length ? `<ul>${docs.map(d => `<li>${esc(d)}</li>`).join("")}</ul><p class="hint" style="margin:4px 0 0">This list is worked out from your answers. It's included in your PDF so nothing gets missed.</p>` : `<p class="hint" style="margin:0">Nothing extra needed based on your answers so far.</p>`}</div>`;
+  }
+  h += group("Authority and acknowledgement");
+  h += MODE ? "" : `<div class="legal" tabindex="0">${AUTH.map(p => `<p>${p}</p>`).join("")}<p><b>You acknowledge and agree:</b></p><ol type="A">${ACK.map(a => `<li>${a}</li>`).join("")}</ol></div>`;
+  h += tick("agree", "I/we have read and agree to the authority and acknowledgements above, and confirm the information in these Sale Instructions is true and correct.", { req: true, pdf: "Authority and acknowledgements agreed" });
+  h += group(vc() > 1 ? "Signed by all vendors" : "Signature");
+  for (let i = 0; i < Math.max(1, vc()); i++) h += sig(i);
+  h += item("Date signed", TODAY.toLocaleDateString("en-AU", { day: "2-digit", month: "2-digit", year: "numeric" }));
+  return h;
+}
+function sig(i){
+  const k = "sig" + i;
+  if (MODE){ if (!S[k]) MODE.missing.push(`Signature – ${vSigner(i)}`); return ""; }
+  const bad = SHOWERR && !S[k];
+  return `<div class="sigbox"><div class="sighead"><span>${esc(vSigner(i))}</span><button type="button" class="link" data-act="clearSig" data-i="${i}">Clear</button></div><canvas class="sigpad ${bad ? "bad" : ""}" id="sigc${i}" data-i="${i}" aria-label="Signature pad for ${esc(vSigner(i))}"></canvas><p class="hint" style="margin:0">Sign with your finger, a stylus or your mouse.</p></div>`;
+}
+
+const STEPS = [
+  { t: "Property & sellers", h: "Let's start with the property", lede: "The address, and who is selling.", fn: stepStart },
+  { t: "Vendor details", h: "About the vendors", lede: "Full contact details for each person on the title (or, for a company, a director).", fn: stepVendors },
+  { t: "The property", h: "About the property", lede: "What it is, when it was built, what it's connected to, and anything affecting the land.", fn: stepProperty },
+  { t: "Title & extra areas", h: "Title and extra areas", lede: "Where the title is, and any carparks, storage or other areas sold with it.", fn: stepTitle },
+  { t: "Rates & owners corp.", h: "Rates, charges and owners corporation", lede: "Who charges rates, any extra levies, and whether there's an owners corporation.", fn: stepRates },
+  { t: "Tenants", h: "Tenants", lede: "Only if someone other than you lives there.", fn: stepTenancy },
+  { t: "Permits & building works", h: "Notices, permits and building works", lede: "Anything from council or neighbours, and any work done in the last 7 years.", fn: stepBuilding },
+  { t: "Pool, alarm & solar", h: "Pool, alarm and solar", lede: "Pools and spas have their own registration rules.", fn: stepPool },
+  { t: "GST & accountant", h: "GST", lede: "How GST applies to the sale. If you're unsure, check with your accountant.", fn: stepGST },
+  { t: "Mortgage & funds", h: "Mortgage and surplus funds", lede: "So we can arrange the payout and send you the balance.", fn: stepFinance },
+  { t: "Sale arrangements", h: "How you're selling", lede: "Agent, auction, contract, inclusions and any rights others have over the property.", fn: stepSale },
+  { t: "Material facts", h: "Material facts", lede: "Things a buyer would want to know before deciding to buy.", fn: stepFacts },
+  { t: "Review & sign", h: "Review and sign", lede: "Check the documents list, then sign to give us your instructions.", fn: stepSign }
+];
+
+function collect(i){
+  const prev = MODE, prevErr = SHOWERR;
+  MODE = { items: [], docs: [], missing: [] };
+  STEPS[i].fn();
+  const r = { i, t: STEPS[i].t, ...MODE };
+  MODE = prev; SHOWERR = prevErr;
+  return r;
+}
+const collectAll = () => STEPS.map((_, i) => collect(i));
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+const form = document.getElementById("form");
+function renderRail(){
+  const all = collectAll();
+  document.getElementById("steps").innerHTML = STEPS.map((s, i) => {
+    const st = i === cur ? "cur" : visited.has(i) ? (all[i].missing.length ? "todo" : "done") : "";
+    const mark = visited.has(i) && i !== cur ? (all[i].missing.length ? "!" : "✓") : "";
+    return `<li class="${st}"><button type="button" data-act="goto" data-step="${i}" ${i === cur ? 'aria-current="step"' : ""}><span class="n">${String(i + 1).padStart(2, "0")}</span><span>${s.t}</span><span class="tick" aria-hidden="true">${mark}</span></button></li>`;
+  }).join("");
+  document.getElementById("mprog").innerHTML = `<div class="lbl"><span>Step ${cur + 1} of ${STEPS.length} · <b>${STEPS[cur].t}</b></span></div><div class="bar"><i style="width:${((cur + 1) / STEPS.length) * 100}%"></i></div>`;
+  document.getElementById("railActions").innerHTML = confirmReset
+    ? `<span class="confirm">Clear every answer? <button type="button" class="link" data-act="resetYes">Yes, start again</button><button type="button" class="link" data-act="resetNo">Cancel</button></span>`
+    : `<button type="button" class="link" data-act="reset">Start again</button>${DEMO ? `<button type="button" class="link" data-act="example">Load example answers</button>` : ""}`;
+}
+function render(scrollTop){
+  if (DONE){ renderDone(); renderRail(); return; }
+  const s = STEPS[cur];
+  const last = cur === STEPS.length - 1;
+  form.innerHTML = `<p class="eyebrow">STEP ${String(cur + 1).padStart(2, "0")} / ${STEPS.length}</p><h1>${s.h}</h1><p class="lede">${s.lede}</p><div class="body">${s.fn()}</div>
+  <div id="blocker"></div>
+  <div class="nav">${cur > 0 ? `<button type="button" class="btn ghost" data-act="back">Back</button>` : `<span class="saved">Saved on this device as you type.</span>`}
+  <button type="button" class="btn primary" data-act="${last ? "finish" : "next"}">${last ? "Finish and create PDF" : "Continue"}</button></div>`;
+  renderRail();
+  if (last) initPads();
+  if (scrollTop) window.scrollTo(0, 0);
+}
+function rerenderKeepFocus(){
+  setTimeout(() => {
+    const a = document.activeElement, fid_ = a && a.id, y = window.scrollY;
+    render(false);
+    window.scrollTo(0, y);
+    if (fid_){ const el = document.getElementById(fid_); if (el) el.focus({ preventScroll: true }); }
+  }, 0);
+}
+
+/* events */
+form.addEventListener("input", e => {
+  const t = e.target, k = t.dataset && t.dataset.k;
+  if (!k || t.type === "radio" || t.type === "checkbox") return;
+  S[k] = t.value; persist();
+});
+form.addEventListener("change", e => {
+  const t = e.target, k = t.dataset && t.dataset.k;
+  if (!k) return;
+  if (t.type === "radio") S[k] = t.value;
+  else if (t.type === "checkbox"){
+    if (t.dataset.multi !== undefined){
+      let arr = Array.isArray(S[k]) ? S[k].slice() : [];
+      const ex = t.dataset.exclval;
+      if (t.checked){
+        if (ex && t.value === ex) arr = [ex];
+        else { arr = arr.filter(x => x !== ex); if (!arr.includes(t.value)) arr.push(t.value); }
+      } else arr = arr.filter(x => x !== t.value);
+      S[k] = arr;
+    } else S[k] = t.checked;
+  } else S[k] = t.value;
+  persist();
+  if (t.type === "radio" || t.type === "checkbox" || t.tagName === "SELECT" || t.dataset.live !== undefined || k === "vcount") rerenderKeepFocus();
+});
+form.addEventListener("submit", e => e.preventDefault());
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const act = b.dataset.act;
+  if (act === "next"){
+    const r = collect(cur);
+    if (r.missing.length){ SHOWERR = true; render(false); showBlocker(r.missing); return; }
+    SHOWERR = false; cur++; visited.add(cur); persist(); render(true);
+  }
+  if (act === "back"){ SHOWERR = false; cur = Math.max(0, cur - 1); persist(); render(true); }
+  if (act === "goto"){ DONE = null; SHOWERR = false; cur = +b.dataset.step; visited.add(cur); persist(); render(true); }
+  if (act === "addWork"){ S.worksN = String(wn() + 1); persist(); render(false); setTimeout(() => { const el = document.getElementById(fid_w(wn() - 1)); el && el.focus(); }, 0); }
+  if (act === "rmWork"){ removeWork(+b.dataset.i); }
+  if (act === "clearSig"){ delete S["sig" + b.dataset.i]; persist(); initPads(); }
+  if (act === "finish") finish();
+  if (act === "pdfAgain") savePdf();
+  if (act === "copyEmail") copyText(CONFIG.officeEmail, b);
+  if (act === "reset"){ confirmReset = true; renderRail(); }
+  if (act === "resetNo"){ confirmReset = false; renderRail(); }
+  if (act === "resetYes"){ confirmReset = false; S = {}; cur = 0; visited = new Set([0]); DONE = null; SHOWERR = false; persist(); render(true); }
+  if (act === "example"){ S = JSON.parse(JSON.stringify(EXAMPLE)); visited = new Set(STEPS.map((_, i) => i)); DONE = null; SHOWERR = false; persist(); render(true); }
+});
+const fid_w = i => fid(`w${i}.desc`);
+function removeWork(i){
+  const n = wn();
+  for (let j = i; j < n - 1; j++) WF.forEach(f => { S[`w${j}.${f}`] = S[`w${j + 1}.${f}`]; });
+  WF.forEach(f => delete S[`w${n - 1}.${f}`]);
+  S.worksN = String(Math.max(1, n - 1)); persist(); render(false);
+}
+function showBlocker(missing){
+  const el = document.getElementById("blocker");
+  el.innerHTML = `<div class="note warn blocker" role="alert"><p><b>Before you continue:</b> ${esc(missing.slice(0, 4).join(" · "))}${missing.length > 4 ? ` and ${missing.length - 4} more` : ""}.</p></div>`;
+  const first = form.querySelector(".bad input, .bad textarea, .bad select");
+  if (first){ first.scrollIntoView({ block: "center", behavior: "smooth" }); first.focus({ preventScroll: true }); }
+}
+
+/* signature pads */
+function initPads(){
+  document.querySelectorAll(".sigpad").forEach(c => {
+    const i = c.dataset.i, k = "sig" + i;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const w = c.clientWidth, hgt = c.clientHeight;
+    c.width = w * dpr; c.height = hgt * dpr;
+    const ctx = c.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.lineWidth = 2.2; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.strokeStyle = "#1F2328";
+    ctx.clearRect(0, 0, w, hgt);
+    if (S[k]){ const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0, w, hgt); img.src = S[k]; }
+    if (c._bound) return; c._bound = true;
+    let drawing = false, last = null;
+    const pos = ev => { const r = c.getBoundingClientRect(); return [ev.clientX - r.left, ev.clientY - r.top]; };
+    c.addEventListener("pointerdown", ev => { drawing = true; last = pos(ev); c.setPointerCapture(ev.pointerId); const x = c.getContext("2d"); x.beginPath(); x.arc(last[0], last[1], 1.1, 0, Math.PI * 2); x.fillStyle = "#1F2328"; x.fill(); });
+    c.addEventListener("pointermove", ev => { if (!drawing) return; const p = pos(ev); const x = c.getContext("2d"); x.beginPath(); x.moveTo(last[0], last[1]); x.lineTo(p[0], p[1]); x.stroke(); last = p; });
+    const end = () => { if (!drawing) return; drawing = false; S[k] = c.toDataURL("image/png"); c.classList.remove("bad"); persist(); };
+    c.addEventListener("pointerup", end); c.addEventListener("pointercancel", end); c.addEventListener("pointerleave", end);
+  });
+}
+
+/* persistence (per device) */
+let saveT;
+function persist(){
+  clearTimeout(saveT);
+  saveT = setTimeout(() => { try { localStorage.setItem(CONFIG.storageKey, JSON.stringify({ S, cur, visited: [...visited] })); } catch (e) {} }, 250);
+}
+function restore(){
+  try {
+    const raw = localStorage.getItem(CONFIG.storageKey); if (!raw) return;
+    const d = JSON.parse(raw); S = d.S || {}; cur = Math.min(d.cur || 0, STEPS.length - 1); visited = new Set(d.visited || [0]);
+  } catch (e) {}
+}
+
+/* =========================================================
+   PDF
+   ========================================================= */
+function latin(s){ return String(s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...").replace(/²/g, "2").replace(/·/g, "-").replace(/[^\x00-\xFF]/g, ""); }
+function buildPdf(){
+  const { jsPDF } = window.jspdf;
+  const d = new jsPDF({ unit: "mm", format: "a4" });
+  const W = 210, H = 297, M = 16, LW = 60, VW = W - M * 2 - LW - 4;
+  let y = 0;
+  const RED = [210, 35, 42], INK = [31, 35, 40], MUTED = [96, 103, 112], LINE = [220, 223, 228];
+  const addr = S.addr || "Property address not given";
+  const ensure = h => { if (y + h > H - 18){ d.addPage(); y = 18; } };
+  const T = (txt, x, yy, o = {}) => { d.text(latin(txt), x, yy, o); };
+
+  // header band
+  d.setFillColor(...RED); d.rect(0, 0, W, 4, "F");
+  if (LOGO){ try { d.addImage(LOGO, "PNG", M, 10, 44, 14.2); } catch (e) { LOGO = null; } }
+  if (!LOGO){
+    d.setDrawColor(...RED); d.setLineWidth(0.8); d.roundedRect(M, 11, 44, 13, 3, 3, "S");
+    d.setFont("helvetica", "bold"); d.setFontSize(13); d.setTextColor(...INK); T("CHOICE", M + 22, 18.5, { align: "center" });
+    d.setFont("helvetica", "normal"); d.setFontSize(5.8); T("C O N V E Y A N C I N G", M + 22, 22.2, { align: "center" });
+  }
+  d.setFontSize(8.5); d.setTextColor(...MUTED);
+  T("72A Little Ryrie Street, Geelong VIC 3220", W - M, 15, { align: "right" });
+  T(`${CONFIG.officePhone}  ·  ${CONFIG.officeEmail}`, W - M, 19.5, { align: "right" });
+  y = 38;
+  d.setFont("helvetica", "bold"); d.setFontSize(21); d.setTextColor(...INK); T("Sale Instructions", M, y);
+  y += 8; d.setFont("helvetica", "normal"); d.setFontSize(11.5);
+  d.splitTextToSize(latin(addr), W - M * 2).forEach(l => { T(l, M, y); y += 5.5; });
+  d.setFontSize(9); d.setTextColor(...MUTED);
+  const names = Array.from({ length: vc() }, (_, i) => vName(i)).join(", ");
+  T(`Vendor(s): ${names || "-"}`, M, y + 1); y += 5.5;
+  T(`Completed online ${TODAY.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })} at ${new Date().toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" })}`, M, y + 1);
+  y += 9;
+
+  const all = collectAll();
+  const docs = [...new Set(all.flatMap(s => s.docs))];
+  const sectionBar = t => { ensure(16); d.setFillColor(243, 244, 246); d.rect(M, y, W - M * 2, 8, "F"); d.setFillColor(...RED); d.rect(M, y, 1.4, 8, "F"); d.setFont("helvetica", "bold"); d.setFontSize(10.5); d.setTextColor(...INK); T(t, M + 5, y + 5.5); y += 12; };
+
+  // documents box
+  sectionBar(`Documents the vendor needs to provide (${docs.length})`);
+  d.setFont("helvetica", "normal"); d.setFontSize(9.3); d.setTextColor(...INK);
+  if (!docs.length){ T("None identified from the answers given.", M + 2, y); y += 6; }
+  docs.forEach(t => {
+    const lines = d.splitTextToSize(latin(t), W - M * 2 - 10);
+    ensure(lines.length * 4.4 + 2);
+    d.setDrawColor(...MUTED); d.setLineWidth(0.3); d.rect(M + 2, y - 3, 3, 3);
+    lines.forEach((l, j) => T(l, M + 8, y + j * 4.4));
+    y += lines.length * 4.4 + 1.8;
+  });
+  y += 4;
+
+  all.forEach(sec => {
+    if (sec.i === STEPS.length - 1) return;
+    const items = sec.items;
+    if (!items.some(it => Array.isArray(it))) return;
+    sectionBar(`${String(sec.i + 1).padStart(2, "0")}  ${STEPS[sec.i].h}`);
+    items.forEach(it => {
+      if (!Array.isArray(it)){ ensure(10); d.setFont("helvetica", "bold"); d.setFontSize(9.5); d.setTextColor(...RED); T(it.h, M, y + 1); y += 6; return; }
+      d.setFontSize(8.6);
+      const lab = d.splitTextToSize(latin(it[0]), LW);
+      d.setFontSize(9.4);
+      const valLines = d.splitTextToSize(latin(it[1]), VW);
+      const hgt = Math.max(lab.length * 3.8, valLines.length * 4.3) + 2.2;
+      ensure(hgt);
+      d.setFont("helvetica", "normal"); d.setFontSize(8.6); d.setTextColor(...MUTED);
+      lab.forEach((l, j) => T(l, M, y + j * 3.8));
+      d.setFontSize(9.4); d.setTextColor(...INK);
+      valLines.forEach((l, j) => T(l, M + LW + 4, y + j * 4.3));
+      y += hgt;
+      d.setDrawColor(...LINE); d.setLineWidth(0.15); d.line(M, y - 1.4, W - M, y - 1.4);
+      y += 1.2;
+    });
+    y += 4;
+  });
+
+  // authority
+  sectionBar("Authority, acknowledgements and signatures");
+  d.setFont("helvetica", "normal"); d.setFontSize(8.4); d.setTextColor(...INK);
+  const para = (t, indent = 0) => { const ls = d.splitTextToSize(latin(t), W - M * 2 - indent); ensure(ls.length * 3.7 + 2); ls.forEach((l, j) => T(l, M + indent, y + j * 3.7)); y += ls.length * 3.7 + 2; };
+  AUTH.forEach(p => para(p));
+  d.setFont("helvetica", "bold"); para("You acknowledge and agree:"); d.setFont("helvetica", "normal");
+  ACK.forEach((a, j) => para(`${"ABCDEF"[j]}.  ${a}`, 2));
+  y += 2;
+  d.setFont("helvetica", "bold"); d.setFontSize(9); para(S.agree ? "[X]  Agreed: the vendor(s) confirm the information in these Sale Instructions is true and correct." : "[  ]  Not yet agreed");
+  y += 2;
+  for (let i = 0; i < Math.max(1, vc()); i++){
+    ensure(34);
+    if (S["sig" + i]) { try { d.addImage(S["sig" + i], "PNG", M, y, 62, 22); } catch (e) {} }
+    d.setDrawColor(...MUTED); d.setLineWidth(0.3); d.line(M, y + 23, M + 80, y + 23);
+    d.setFont("helvetica", "normal"); d.setFontSize(8.6); d.setTextColor(...MUTED);
+    T(vSigner(i), M, y + 27.5);
+    T(`Date: ${TODAY.toLocaleDateString("en-AU")}`, M + 100, y + 27.5);
+    y += 34;
+  }
+
+  const pages = d.getNumberOfPages();
+  for (let p = 1; p <= pages; p++){
+    d.setPage(p); d.setFont("helvetica", "normal"); d.setFontSize(7.8); d.setTextColor(...MUTED);
+    d.text(latin(`Choice Conveyancing - Sale Instructions - ${addr}`).slice(0, 110), M, H - 9);
+    d.text(`Page ${p} of ${pages}`, W - M, H - 9, { align: "right" });
+  }
+  return d;
+}
+function pdfName(){
+  const a = (S.addr || "property").split(",")[0].replace(/[^a-z0-9 ]/gi, "").trim().replace(/\s+/g, "-");
+  return `Sale-Instructions-${a || "property"}.pdf`;
+}
+let LOGO = null;
+fetch("logo.png").then(r => r.ok ? r.blob() : null).then(b => { if (!b) return; const fr = new FileReader(); fr.onload = () => { LOGO = fr.result; }; fr.readAsDataURL(b); }).catch(() => {});
+let DL = null;
+(async () => { try { DL = window.claude && window.claude.use ? await window.claude.use("downloads") : null; } catch (e) { DL = null; } })();
+async function savePdf(){
+  if (!window.jspdf){ flash("The PDF tool didn't load. Check your connection and try again."); return false; }
+  lastPdf = lastPdf || buildPdf();
+  const blob = lastPdf.output("blob");
+  if (DL){
+    try { await DL.save({ filename: pdfName(), data: blob }); return true; }
+    catch (e){ if (e && e.code === "declined") return false; }
+  }
+  try { lastPdf.save(pdfName()); return true; } catch (e) { flash("Your browser blocked the download."); return false; }
+}
+function flash(msg){ const el = document.getElementById("blocker") || document.getElementById("doneMsg"); if (el) el.innerHTML = `<div class="note warn blocker" role="alert"><p>${esc(msg)}</p></div>`; }
+
+async function finish(){
+  const all = collectAll();
+  const missing = all.filter(s => s.missing.length);
+  if (missing.length){
+    SHOWERR = true; render(false);
+    const p = document.getElementById("missPanel");
+    if (p) p.scrollIntoView({ behavior: "smooth", block: "start" });
+    else showBlocker(missing.flatMap(s => s.missing));
+    return;
+  }
+  const btn = form.querySelector('[data-act="finish"]'); if (btn){ btn.disabled = true; btn.textContent = "Creating PDF…"; }
+  lastPdf = buildPdf();
+  let sent = false;
+  if (CONFIG.submitUrl){
+    try {
+      const b64 = lastPdf.output("datauristring").split(",")[1];
+      const res = await fetch(CONFIG.submitUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ filename: pdfName(), pdf: b64, address: S.addr || "", vendors: Array.from({ length: vc() }, (_, i) => vName(i)).join(", "), email: S["v0.email"] || "", phone: S["v0.mobile"] || "" }) });
+      sent = res.ok;
+    } catch (e) { sent = false; }
+  }
+  DONE = { sent, docs: [...new Set(all.flatMap(s => s.docs))] };
+  render(true);
+}
+function renderDone(){
+  const { sent, docs } = DONE;
+  form.innerHTML = `<div class="done-mark" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="var(--ok)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <h1>${sent ? "Thank you. Your instructions are with us." : "Your Sale Instructions are ready"}</h1>
+  <p class="lede">${sent ? "We've received your signed Sale Instructions and will be in touch shortly. Save a copy for your records, and review it just before you sign to sell." : `Save the PDF, then email it to us with the documents listed below. Keep a copy and review it just before you sign to sell.`}</p>
+  <div class="body">
+    <div class="copyrow"><button type="button" class="btn primary" data-act="pdfAgain">${sent ? "Save a copy (PDF)" : "Save PDF"}</button>${sent ? "" : `<code>${CONFIG.officeEmail}</code><button type="button" class="btn ghost" data-act="copyEmail">Copy email address</button>`}</div>
+    <div id="doneMsg"></div>
+    <div class="panel docs"><h3>Documents to send us (${docs.length})</h3>${docs.length ? `<ul>${docs.map(d => `<li>${esc(d)}</li>`).join("")}</ul>` : `<p class="hint" style="margin:0">Nothing extra needed.</p>`}<p class="hint" style="margin:4px 0 0">Email them to ${CONFIG.officeEmail}, or drop them in to 72A Little Ryrie Street, Geelong. Questions? Call ${CONFIG.officePhone}.</p></div>
+  </div>
+  <div class="nav"><button type="button" class="btn ghost" data-act="goto" data-step="${STEPS.length - 1}">Back to my answers</button><span class="saved">Your answers stay saved on this device.</span></div>`;
+}
+async function copyText(t, b){
+  try { await navigator.clipboard.writeText(t); b.textContent = "Copied"; }
+  catch (e){ const c = document.querySelector(".copyrow code"); if (c){ const r = document.createRange(); r.selectNodeContents(c); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } b.textContent = "Selected – press Ctrl/Cmd+C"; }
+}
+
+/* ---------- example answers (demo only) ---------- */
+const EXAMPLE = {
+  addr: "14 Example Street, Geelong West VIC 3218", vcount: "2",
+  "v0.cap": CAPS[0], "v1.cap": CAPS[0],
+  "v0.title": "Mr", "v0.first": "Sam", "v0.family": "Example", "v0.dob": "1978-04-12", "v0.addr": "14 Example Street, Geelong West VIC 3218", "v0.mobile": "0400 000 000", "v0.email": "sam@example.com", "v0.aus": "Yes",
+  "v1.title": "Ms", "v1.first": "Alex", "v1.family": "Example", "v1.dob": "1980-09-30", "v1.addr": "14 Example Street, Geelong West VIC 3218", "v1.mobile": "0400 000 001", "v1.email": "alex@example.com", "v1.aus": "No", "v1.country": "New Zealand", "v1.pr": "No", "v1.nz": "Yes",
+  addc: "No", ptype: "House", beds: "3", land: "585", built: "1962", bought: "2021",
+  svcElec: "Connected", svcGas: "Connected", svcWater: "Connected", svcSewer: "Connected", svcPhone: "VoIP phone via NBN", svcTv: "None", svcNbn: "Fibre to the curb (FTTC)",
+  ease: "Yes", easeDetails: "Garden shed on a concrete slab over the drainage easement along the rear fence.", clad: "No",
+  titleHeld: "My bank / lender", extra: "No",
+  council: "City of Greater Geelong", water: "Barwon Water", levy: "No", otherOut: "No", oc: "No",
+  rented: "No", notices: "No", neigh: "Yes", neighDetails: "Neighbour proposed sharing the cost of replacing the side fence (quote attached).", disputes: "No", permits: "No",
+  works: "Yes", worksN: "2",
+  "w0.desc": "Added new attached deck with covered pergola", "w0.start": "2023-10", "w0.finish": "2024-01", "w0.struct": "Yes", "w0.permit": "Yes", "w0.final": "Yes", "w0.who": "I hired individual trades myself", "w0.trades": "3", "w0.cost": "18,500", "w0.value": "24,000",
+  "w1.desc": "New kitchen with all new appliances, taps and tiling", "w1.start": "2022-05", "w1.finish": "2022-07", "w1.struct": "No", "w1.permit": "No", "w1.final": "No", "w1.who": "A registered builder", "w1.builder": "Bayside Kitchens Pty Ltd", "w1.reg": "DB-L 00000", "w1.contract": "Yes", "w1.cost": "32,000",
+  warr: ["Electrical certificate of compliance", "Plumbing certificate of compliance"],
+  pool: "No", spa: "No", alarm: "Yes", alarmMon: "No", solar: "Yes", solarFin: "No",
+  "v0.gst": "No", "v0.gstShould": "No", "v1.gst": "No", "v1.gstShould": "No",
+  gstT: GST_T[0], gstNo: ["All vendors are not registered for GST (and don't need to be)", "It's previously occupied residential property, and not the first sale after a new build or substantial renovation"],
+  price: "820,000", mort: "Yes", lender: "Example Bank", owed: "410,000", collat: "No",
+  sBank: "Example Bank", sName: "S & A Example", sBsb: "000-000", sAcc: "12345678",
+  agent: "Yes", agency: "Example Realty Geelong", salesPerson: "Jordan Agent", spMobile: "0400 000 002",
+  auction: "No", contract: "Yes", incStd: "Yes", incExtra: "Yes", incList: "Dishwasher, 5 kW solar system, TV antenna, garden shed", excStd: "Yes", excExtra: "No",
+  rights: "No", caveat: "No",
+  facts: ["One or more appliances or inclusions are NOT working (e.g. pool equipment, dishwasher, heating, cooling)"], factsAppl: "Ducted heating fan is noisy but works; rear split system not working."
+};
+
+restore();
+render(false);
+</script>
+</body>
+</html>
